@@ -11,6 +11,13 @@
 ```bash
 $ npm install fastify-typebox
 ```
+
+## Overview
+
+Fastify-TypeBox is a specialized TypeBox compatibility layer for Fastify. It enables TypeBox schemas to be automatically type inferenced inside Fastify route handlers with no additional type hinting. The compatibility layer itself is implemented entirely in the TypeScript type system.
+
+License MIT
+
 ## Example
 
 ```typescript
@@ -52,8 +59,4 @@ fastify.post('/', { schema }, (req, reply) => {
     reply.status(200).send({ x: 1, y: 2 })      // { x: number, y: number }
 })
 ```
-## Overview
 
-Fastify-TypeBox is a specialized TypeBox compatibility layer for Fastify. It enables TypeBox schemas to be automatically type inferenced inside Fastify route handlers with no additional type hinting. The compatibility layer itself is implemented entirely in the TypeScript type system.
-
-License MIT
