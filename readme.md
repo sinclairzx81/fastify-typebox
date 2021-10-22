@@ -11,7 +11,7 @@
 ## Install
 
 ```bash
-$ npm install fastify-typebox
+$ npm install fastify-typebox --save
 ```
 
 ## Overview
