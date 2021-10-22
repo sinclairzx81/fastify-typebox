@@ -4,6 +4,8 @@
 
 <p>Automatic Type Inference for Fastify using TypeBox</p>
 
+[![npm version](https://badge.fury.io/js/fastify-typebox.svg)](https://badge.fury.io/js/fastify-typebox)
+
 </div>
 
 ## Install
