@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "moduleResolution": "node",
+        "target": "ESNext",
+        "strict": true,
+        "baseUrl": ".",
+        "paths": {
+            "fastify-typebox": ["src/fastify-typebox"]
+        }
+    }
+}

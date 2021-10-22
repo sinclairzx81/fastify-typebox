@@ -1,0 +1,21 @@
+{
+    "name": "fastify-typebox",
+    "version": "0.8.0",
+    "description": "Automatic Type Inference for Fastify using TypeBox",
+    "main": "./fastify-typebox.js",
+    "types": "./fastify-typebox.d.ts",
+    "keywords": [
+      "fastify",
+      "typebox",
+      "schema"
+    ],
+    "author": "sinclairzx81",
+    "license": "MIT",
+    "peerDependencies": {
+        "fastify": "^3.22.1"
+    },
+    "dependencies": {
+      "@sinclair/typebox": "^0.20.5"
+    }
+  }
+  
