@@ -7,4 +7,5 @@ export async function build() {
     await folder('target/build').add('src/package.json')
     await folder('target/build').add('license')
     await folder('target/build').add('readme.md')
+    await shell('cd target/build && npm pack')
 }
