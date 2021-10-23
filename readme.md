@@ -65,7 +65,7 @@ FastifyTypeBox works by reinterpretting Fastify's TypeScript interface. It essen
 ```typescript
 import { FastifyTypeBox, Type } from 'fastify-typebox'
 
-import Fastify                  from 'fastify'
+import Fastify from 'fastify'
 
 const fastify = Fastify({ ... }) as FastifyTypeBox // Makes Fastify TypeBox aware
 ```
