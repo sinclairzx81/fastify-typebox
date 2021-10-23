@@ -1,7 +1,7 @@
 {
     "name": "fastify-typebox",
-    "version": "0.8.1",
-    "description": "Automatic Type Inference for Fastify using TypeBox",
+    "version": "0.8.2",
+    "description": "Enhanced TypeBox support for Fastify",
     "main": "./fastify-typebox.js",
     "types": "./fastify-typebox.d.ts",
     "keywords": [

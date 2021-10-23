@@ -2,7 +2,7 @@
 
 <h1>Fastify-TypeBox</h1>
 
-<p>Automatic Type Inference for Fastify using TypeBox</p>
+<p>Enhanced TypeBox support for Fastify</p>
 
 [![npm version](https://badge.fury.io/js/fastify-typebox.svg)](https://badge.fury.io/js/fastify-typebox)
 

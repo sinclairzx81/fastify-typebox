@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------
 
-Fastify TypeBox: Automatic Type Inference for Fastify using TypeBox
+Fastify TypeBox: Enhanced TypeBox support for Fastify
 
 The MIT License (MIT)
 
