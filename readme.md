@@ -82,18 +82,23 @@ fastify.get('/records', {
             limit:  Type.Interger({ maximum: 64 }),
         },
         response: {
-            200: Type.Array(Type.Object({
-                id:    Type.String({format: 'uuid' })
-                name:  Type.String(),
-                email: Type.String({format: 'email' })
-            }))
+            200: Type.Array(
+                Type.Object({
+                    id:    Type.String({format: 'uuid' })
+                    name:  Type.String(),
+                    email: Type.String({format: 'email' })
+                })
+            )
         }
     }
 }, async (request, reply) => {
-    reply.status(200).send(await get(
+
+    const records = await get(
         request.query.offset, 
         request.query.limit
-    ))
+    )
+
+    reply.status(200).send(records)
 })
 ```
 
@@ -111,8 +116,11 @@ fastify.get('/action', {
         }
     }
 }, (request, reply) => {
+
     reply.status(200).send('ok')  // must be string
+
     reply.status(401).send(false) // must be boolean
+    
     reply.status(500).send(42)    // must be number
 })
 ```
