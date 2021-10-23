@@ -22,7 +22,15 @@ Requires TypeScript 4.3.5 and above.
 
 License MIT
 
-## Example
+## Contents
+
+- [Overview](#Overview)
+- [Usage](#Usage)
+- [Setup](#Setup)
+- [Requests](#Requests)
+- [Replies](#Replies)
+
+## Usage
 
 The following example demonstrates general usage. TypeScript Playgound link [here](https://www.typescriptlang.org/play?#code/JYWwDg9gTgLgBAbzgFQJ5gKYBo4DECGAzjMAGapqYBCEAHnAL5ylQQhwDkpRJ5AtDHQYARnQ4BYAFChIsPDzKo4ylarUqWbTt2KKJkqQHpDcPmfMXLV6zdt2rRkwFEAdvmEAbDCiE16AYzYwfBJhYA9gQUdTe1i4+LspKUCXYmYFcjgAXnldcgAKJAYASjgiXN4KXzokyWMYhMam+2iAEQxSYBdvAjylAGV-AAsMEHw4AHdIoZ9qGrqTZqXli1qUtMJh0fGchClVUQATVAAuWYwAOgB5YQArDH8YQv31OG3ws8pL-pgoLoBzQrMaBjGBnDjvDwcEovZQlLCwuBQDCESCpDBnPaSV5wABMAAZ8Z8hNc7g8nlicapaMTMBcAHIAVxAwgwUHyxQR2KpylO5wZzNZ7OKiNUMO5cKkDFq9RWcuabQ6XW8ACUIIyYBhovKdfFajpKhdIMR8hxDBwcEhNiMxowcPlkQBHHDIsAeVClLIAPkQiMR9UhcGAhDgxD+Ln+iPW8CQgaYOSdFyOqFqqnqxBCjJDBPxSJRaMI3gzJH8+A87rgW38AGsMIcLojXe6LsWs-kc8UWxgXIcgTS4ABGHB83GMUpS4pAA).
 
@@ -89,7 +97,7 @@ fastify.get('/records', {
 })
 ```
 
-## Responses
+## Replies
 
 FastifyTypeBox also provides static type checking of Fastify response types. To achieve this, FastifyTypeBox mandates that users call `status(...)` prior to calling `send(...)`. FastifyTypeBox can narrow the appropriate response type based on the status code. 
 
