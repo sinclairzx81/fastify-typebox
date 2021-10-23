@@ -60,7 +60,7 @@ fastify.get('/add', {
 
 ## Setup
 
-FastifyTypeBox works by reinterpretting Fastify's TypeScript interface. It remaps Fastify's http verb handlers (`get()`, 'post()`, etc), making them TypeBox aware. To enable, just add a `FastifyTypeBox` type assertion after a call to initialize Fastify.
+FastifyTypeBox works by reinterpretting Fastify's TypeScript interface. It essentially remaps Fastify's http verb handlers, making them fully TypeBox aware. To enable, just add a `FastifyTypeBox` type assertion after a call to initialize Fastify.
 
 ```typescript
 import { FastifyTypeBox, Type } from 'fastify-typebox'
