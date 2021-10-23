@@ -37,7 +37,7 @@ export type FastifyTypeBoxSchema = {
     headers?:     TSchema,
     params?:      TSchema,
     querystring?: TSchema,
-    response?:    TSchema | { [statusCode: number]: TSchema }
+    response?:    { [statusCode: number]: TSchema }
 }
 
 export type IntoFastifySchema<T extends FastifyTypeBoxSchema> = {
@@ -48,30 +48,30 @@ export type IntoFastifySchema<T extends FastifyTypeBoxSchema> = {
 }
 
 export type FastifyTypeBoxRequest<
-  Schema    extends FastifyTypeBoxSchema,
-  RawServer extends RawServerBase,
+    Server extends RawServerBase,  
+    Schema extends FastifyTypeBoxSchema,
 > = FastifyRequest<
     IntoFastifySchema<Schema>, 
-    RawServer, 
-    RawRequestDefaultExpression<RawServer>
+    Server, 
+    RawRequestDefaultExpression<Server>
 >
 
-export type FastifyTypeBoxSingleReply<Schema extends TSchema> = Omit<FastifyReply, 'status' | 'send'> & {
-    status(status: number): FastifyTypeBoxSingleReply<Schema>
+export type FastifyTypeBoxResolvedReply<Schema extends TSchema> = Omit<FastifyReply, 'status' | 'send'> & {
+    status(status: number): FastifyTypeBoxResolvedReply<Schema>
     send(response: Static<Schema>): void
 }
 
-export type FastifyTypeBoxMultiReply<Schema extends { [status: string]: TSchema }> = Omit<FastifyReply, 'status' | 'send'> & {
-    status<Status extends keyof Schema>(code: Status): FastifyTypeBoxSingleReply<Schema[Status]>
+export type FastifyTypeBoxUnresolvedReply<Schema extends { [status: string]: TSchema }> = Omit<FastifyReply, 'status' | 'send'> & {
+    /** You must call status() before calling send() */
     send(response: never): void
+    status<Status extends keyof Schema>(code: Status): FastifyTypeBoxResolvedReply<Schema[Status]>    
 }
 
 export type FastifyTypeBoxResolveReply<T> = 
-    T extends TSchema ? FastifyTypeBoxSingleReply<T> :
-    T extends { [status: number]: TSchema } ? FastifyTypeBoxMultiReply<T> :
-    FastifyTypeBoxSingleReply<TUnknown>
+    T extends { [status: number]: TSchema } ? FastifyTypeBoxUnresolvedReply<T> :
+    FastifyTypeBoxResolvedReply<TUnknown>
 
-export type FastifyTypeBoxReply<Response extends TSchema | { [status: number]: TSchema} | unknown> = FastifyTypeBoxResolveReply<Response>
+export type FastifyTypeBoxReply<Response extends { [status: number]: TSchema} | unknown> = FastifyTypeBoxResolveReply<Response>
 
 export type FastifyTypeBoxRouteShorthandOptions<Server extends RawServerBase, Config> =  Omit<
     RouteShorthandOptions<
@@ -91,21 +91,24 @@ export type FastifyTypeBoxRouteOptions<
 }
 
 export type FastifyTypeBoxHandlerMethod<
-    RawServer extends RawServerBase, 
-    Schema    extends FastifyTypeBoxSchema
+    Server extends RawServerBase, 
+    Schema extends FastifyTypeBoxSchema
 > = (
-    request: FastifyTypeBoxRequest<Schema, RawServer>, 
+    request: FastifyTypeBoxRequest<Server, Schema>, 
     reply:   FastifyTypeBoxReply<Schema['response']>
 ) => Promise<unknown> | unknown
 
-export type FastifyTypeBoxRouteGenericInterface<Schema extends FastifyTypeBoxSchema> = FastifyTypeBoxRouteOptions<RawServerBase, Schema, any> & {
+export type FastifyTypeBoxRouteGenericInterface<
+    Server extends RawServerBase,
+    Schema extends FastifyTypeBoxSchema
+> = FastifyTypeBoxRouteOptions<Server, Schema, any> & {
     method:  string
     url:     string
     handler: FastifyTypeBoxHandlerMethod<RawServerBase, Schema>
 }
 
 export type FastifyTypeBox = Omit<FastifyInstance, 'route' | 'all' | 'delete' | 'get' | 'head' | 'options' | 'patch' | 'post' | 'put'> & {
-    route<Schema extends FastifyTypeBoxSchema>(options: FastifyTypeBoxRouteGenericInterface<Schema>): FastifyTypeBox
+    route<Schema extends FastifyTypeBoxSchema>(options: FastifyTypeBoxRouteGenericInterface<RawServerBase, Schema>): FastifyTypeBox
     all(url: string, handler: FastifyTypeBoxHandlerMethod<RawServerBase, {}>): FastifyTypeBox
     all<Schema extends FastifyTypeBoxSchema>(
         url:    string, 

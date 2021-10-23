@@ -17,7 +17,6 @@ fastify.get('/', {
         }
     }
 }, (req, reply) => {
-    
     reply.status(200).send(req.query.name)
 })
 
@@ -52,8 +51,8 @@ fastify.route({
     url: '/route',
     schema: {
         querystring: Type.Object({
-            name: Type.String(),
-            excitement: Type.Integer()
+            a: Type.Number(),
+            b: Type.Number()
         }),
         response: {
             200: Type.Object({
@@ -62,7 +61,6 @@ fastify.route({
         }
     },
     handler: (request, reply) => {
-        console.log(request.query)
         reply.status(200).send({ hello: 'world' })
     }
 })
