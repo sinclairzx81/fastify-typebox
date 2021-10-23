@@ -50,21 +50,21 @@ fastify.get('/add', {
 })
 ```
 
-## Enable
+## Setup
 
-FastifyTypeBox works by reinterpretting Fastify's TypeScript interface. It conditionally maps Fastify's http verb handlers (`get()`, 'post()`, etc), making them TypeBox aware. To enable, just add a `FastifyTypeBox` type assertion after a call to initialize Fastify.
+FastifyTypeBox works by reinterpretting Fastify's TypeScript interface. It remaps Fastify's http verb handlers (`get()`, 'post()`, etc), making them TypeBox aware. To enable, just add a `FastifyTypeBox` type assertion after a call to initialize Fastify.
 
 ```typescript
 import { FastifyTypeBox, Type } from 'fastify-typebox'
 
 import Fastify                  from 'fastify'
 
-const fastify = Fastify({ ... }) as FastifyTypeBox // reinterpret Fastify interface
+const fastify = Fastify({ ... }) as FastifyTypeBox // Makes Fastify TypeBox aware
 ```
 
 ## Requests
 
-FastifyTypeBox operates entirely on the TypeScript type system, so users can expect the same request handling behaviour as Fastify. However when enabling FastifyTypeBox, schemas must be passed as TypeBox types. FastifyTypeBox will automatically infer the correct request parameters without needing to use the TypeBox `Static<TSchema>` type or generically specify request / response types in Fastify route handlers.
+FastifyTypeBox operates entirely on the TypeScript type system, so users can expect the same request handling behaviour as Fastify. However when enabling FastifyTypeBox, schemas must be passed as TypeBox types. FastifyTypeBox will automatically infer the correct request parameters without needing to use the TypeBox `Static<TSchema>` type or use generics to specify request / response types in Fastify route handlers.
 
 ```typescript
 fastify.get('/records', {
@@ -91,7 +91,7 @@ fastify.get('/records', {
 
 ## Responses
 
-FastifyTypeBox provides static type checking of Fastify response types. It mandates mandates that users specify a `static(code)` prior to calling `send(...)`. FastifyTypeBox can narrow the appropriate response type based on the status code. 
+FastifyTypeBox also provides static type checking of Fastify response types. To achieve this, FastifyTypeBox mandates that users call `status(...)` prior to calling `send(...)`. FastifyTypeBox can narrow the appropriate response type based on the status code. 
 
 ```typescript
 fastify.get('/action', {
