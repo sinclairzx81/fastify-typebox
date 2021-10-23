@@ -1,37 +1,70 @@
 import { Type, FastifyTypeBox } from 'fastify-typebox'
-import Fastify                  from 'fastify'
+import Fastify from 'fastify'
 
-// -------------------------------------------------------------
-// Enable TypeBox compatibility
-// -------------------------------------------------------------
+const fastify = Fastify() as FastifyTypeBox
 
-const fastify = Fastify({ }) as FastifyTypeBox
+// -----------------------------------------------------------------
+// Get
+// -----------------------------------------------------------------
 
-// -------------------------------------------------------------
-// Define Fastify Schema with TypeBox
-// -------------------------------------------------------------
+fastify.get('/', { 
+    schema: { 
+        querystring: Type.Object({ 
+            name: Type.String() 
+        }),
+        response: {
+            200: Type.String()
+        }
+    }
+}, (req, reply) => {
+    
+    reply.status(200).send(req.query.name)
+})
 
-const schema = {
+// -----------------------------------------------------------------
+// Post
+// -----------------------------------------------------------------
+
+const PostSchema = {
     body: Type.Object({
-        email: Type.String({ format: 'email'})
+        option: Type.Boolean()
     }),
     response: {
-        200: Type.Object({
-            x: Type.Number(),
-            y: Type.Number()
-        })
+        200: Type.String(),
+        500: Type.Boolean()
     }
 }
 
-// -------------------------------------------------------------
-// Define Route
-// -------------------------------------------------------------
-
-fastify.post('/', { schema }, (req, reply) => {
-    
-    // email is string
-    const { email } = req.body
-
-    // status 200 response statically checked.
-    reply.status(200).send({ x: 1, y: 2 }) 
+fastify.post('/post', { schema: PostSchema }, (req, reply) => {
+    if(req.body.option === true) {
+        reply.status(200).send("Ok")
+    } else {
+        reply.status(500).send(false)
+    }
 })
+
+// -----------------------------------------------------------------
+// Route
+// -----------------------------------------------------------------
+
+fastify.route({
+    method: 'GET',
+    url: '/route',
+    schema: {
+        querystring: Type.Object({
+            name: Type.String(),
+            excitement: Type.Integer()
+        }),
+        response: {
+            200: Type.Object({
+                hello: Type.String()
+            })
+        }
+    },
+    handler: (request, reply) => {
+        console.log(request.query)
+        reply.status(200).send({ hello: 'world' })
+    }
+})
+
+fastify.listen(5000)

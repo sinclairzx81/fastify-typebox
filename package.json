@@ -1,6 +1,7 @@
 {
   "scripts": {
     "clean": "hammer task clean",
+    "start": "hammer task start",
     "build": "hammer task build"
   },
   "keywords": [

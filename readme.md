@@ -16,7 +16,9 @@ $ npm install fastify-typebox --save
 
 ## Overview
 
-Fastify-TypeBox is a specialized TypeBox compatibility layer for Fastify. It enables TypeBox schemas to be automatically type inferenced inside Fastify route handlers with no additional type hinting. The compatibility layer itself is implemented entirely in the TypeScript type system.
+Fastify-TypeBox is a TypeBox compatibility layer for Fastify. It offers enhanced TypeBox support for Fastify and offers automatic type inference for Fastify route handlers with no additional type hinting. The compatibility layer itself is implemented entirely in the TypeScript type system.
+
+Requires TypeScript 4.3.5 and above
 
 License MIT
 
@@ -25,42 +27,85 @@ License MIT
 The following example demonstrates general usage. TypeScript Playgound link [here](https://www.typescriptlang.org/play?#code/JYWwDg9gTgLgBAbzgFQJ5gKYBo4DECGAzjMAGapqYBCEAHnAL5ylQQhwDkpRJ5AtDHQYARnQ4BYAFChIsPDzKo4ylarUqWbTt2KKJkqQHpDcPmfMXLV6zdt2rRkwFEAdvmEAbDCiE16AYzYwfBJhYA9gQUdTe1i4+LspKUCXYmYFcjgAXnldcgAKJAYASjgiXN4KXzokyWMYhMam+2iAEQxSYBdvAjylAGV-AAsMEHw4AHdIoZ9qGrqTZqXli1qUtMJh0fGchClVUQATVAAuWYwAOgB5YQArDH8YQv31OG3ws8pL-pgoLoBzQrMaBjGBnDjvDwcEovZQlLCwuBQDCESCpDBnPaSV5wABMAAZ8Z8hNc7g8nlicapaMTMBcAHIAVxAwgwUHyxQR2KpylO5wZzNZ7OKiNUMO5cKkDFq9RWcuabQ6XW8ACUIIyYBhovKdfFajpKhdIMR8hxDBwcEhNiMxowcPlkQBHHDIsAeVClLIAPkQiMR9UhcGAhDgxD+Ln+iPW8CQgaYOSdFyOqFqqnqxBCjJDBPxSJRaMI3gzJH8+A87rgW38AGsMIcLojXe6LsWs-kc8UWxgXIcgTS4ABGHB83GMUpS4pAA).
 
 ```typescript
-import { Type, FastifyTypeBox } from 'fastify-typebox'
+import { FastifyTypeBox, Type } from 'fastify-typebox'
 import Fastify                  from 'fastify'
-
-// -------------------------------------------------------------
-// Enable TypeBox compatibility
-// -------------------------------------------------------------
 
 const fastify = Fastify({ }) as FastifyTypeBox
 
-// -------------------------------------------------------------
-// Define Fastify Schema with TypeBox
-// -------------------------------------------------------------
-
-const schema = {
-    body: Type.Object({
-        email:    Type.String({ format: 'email'}),
-        username: Type.String(),
-        count:    Type.Integer()
-    }),
-    response: {
-        200: Type.Object({
-            x: Type.Number(),
-            y: Type.Number()
-        })
+fastify.get('/add', { 
+    schema: {
+        querystring: Type.Object({
+            a: Type.Number(),
+            b: Type.Number()
+        }),
+        response: {
+            200: Type.Number()
+        }
     }
-}
+}, (req, reply) => {
 
-// -------------------------------------------------------------
-// Define Route
-// -------------------------------------------------------------
+    const { a, b } = req.query
 
-fastify.post('/', { schema }, (req, reply) => {
+    reply.status(200).send(a + b)
+})
+```
 
-    const { email, username, count } = req.body // { email: string, username: string, count: number }
+## Enable
 
-    reply.status(200).send({ x: 1, y: 2 })      // { x: number, y: number }
+FastifyTypeBox works by reinterpretting Fastify's TypeScript interface. It conditionally maps Fastify's http verb handlers (`get()`, 'post()`, etc), making them TypeBox aware. To enable, just add a `FastifyTypeBox` type assertion after a call to initialize Fastify.
+
+```typescript
+import { FastifyTypeBox, Type } from 'fastify-typebox'
+
+import Fastify                  from 'fastify'
+
+const fastify = Fastify({ ... }) as FastifyTypeBox // reinterpret Fastify interface
+```
+
+## Requests
+
+FastifyTypeBox operates entirely on the TypeScript type system, so users can expect the same request handling behaviour as Fastify. However when enabling FastifyTypeBox, schemas must be passed as TypeBox types. FastifyTypeBox will automatically infer the correct request parameters without needing to use the TypeBox `Static<TSchema>` type or generically specify request / response types in Fastify route handlers.
+
+```typescript
+fastify.get('/records', {
+    schema: {
+        querystring: {
+            offset: Type.Interger(),
+            limit:  Type.Interger({ maximum: 64 }),
+        },
+        response: {
+            200: Type.Array(Type.Object({
+                id:    Type.String({format: 'uuid' })
+                name:  Type.String(),
+                email: Type.String({format: 'email' })
+            }))
+        }
+    }
+}, async (request, reply) => {
+    reply.status(200).send(await get(
+        request.query.offset, 
+        request.query.limit
+    ))
+})
+```
+
+## Responses
+
+FastifyTypeBox provides static type checking of Fastify response types. It mandates mandates that users specify a `static(code)` prior to calling `send(...)`. FastifyTypeBox can narrow the appropriate response type based on the status code. 
+
+```typescript
+fastify.get('/action', {
+    schema: {
+        response: {
+            200: Type.String(),
+            401: Type.Boolean(),
+            500: Type.Number(),
+        }
+    }
+}, (request, reply) => {
+    reply.status(200).send('ok')  // must be string
+    reply.status(401).send(false) // must be boolean
+    reply.status(500).send(42)    // must be number
 })
 ```
 
