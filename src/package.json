@@ -1,6 +1,6 @@
 {
     "name": "fastify-typebox",
-    "version": "0.8.3",
+    "version": "0.8.4",
     "description": "Enhanced TypeBox support for Fastify",
     "main": "./fastify-typebox.js",
     "types": "./fastify-typebox.d.ts",
