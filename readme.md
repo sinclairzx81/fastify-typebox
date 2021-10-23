@@ -72,7 +72,7 @@ const fastify = Fastify({ ... }) as FastifyTypeBox // Makes Fastify TypeBox awar
 
 ## Requests
 
-Because FastifyTypeBox operates entirely on the TypeScript type system, users can expect the same request handling behaviour as Fastify. However when enabling FastifyTypeBox, schemas must be passed as TypeBox types. FastifyTypeBox will automatically infer the correct request parameters without needing to use the TypeBox `Static<TSchema>` type or use generics to specify request / response types in Fastify route handlers.
+Because FastifyTypeBox operates exclusively on TypeScript type system, users can expect the same request handling behaviour as Fastify. However when enabling FastifyTypeBox, All schemas must be passed as TypeBox types. FastifyTypeBox will automatically infer the correct request parameters without needing to use the TypeBox `Static<TSchema>` type or use generics to specify request / response types in Fastify route handlers.
 
 ```typescript
 fastify.get('/records', {
