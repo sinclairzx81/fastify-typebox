@@ -78,8 +78,8 @@ Because FastifyTypeBox operates exclusively on TypeScript type system, users can
 fastify.get('/records', {
     schema: {
         querystring: {
-            offset: Type.Interger(),
-            limit:  Type.Interger({ maximum: 64 }),
+            offset: Type.Integer(),
+            limit:  Type.Integer({ maximum: 64 }),
         },
         response: {
             200: Type.Array(
