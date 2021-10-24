@@ -6,12 +6,24 @@ import FastifyTypeBox, { Type } from 'fastify-typebox'
 
 const fastify = FastifyTypeBox()
 
-fastify.get('/hello/:world', { 
+const Box = Type.Box({
+    Vector: Type.Object({
+        x: Type.Number(),
+        y: Type.Number()
+    })
+}, { $id: 'Box' })
+
+fastify.addSchema(Box)
+
+fastify.get('/echo/vector', { 
     schema: {
+        querystring: Type.Ref(Box, 'Vector'),
         response: {
-            200: Type.String()
+            200: Type.Ref(Box, 'Vector')
         }
-    } 
+    }
 }, (req, res) => {
-    res.status(200).send(req.params.world)
+    res.status(200).send(req.query)
 })
+
+fastify.listen(5000)
