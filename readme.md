@@ -93,7 +93,7 @@ fastify.get('/records', {
 
 ## Params
 
-Fastify TypeBox supports automatically inferring param objects from urls. Param properties are always inferred as type string.
+Fastify TypeBox supports automatic param inference from urls. Param properties are always inferred as strings.
 
 ```typescript
 fastify.get('/users/:userId', (request, reply) => {
@@ -103,7 +103,7 @@ fastify.get('/users/:userId', (request, reply) => {
 
 ## Reply
 
-Fastify TypeBox provides static type checking based on defined HTTP status codes. Users must call `status(...)` prior to calling `send(...)` where the specified status code is used to select the appropriate response schema.
+Fastify TypeBox implements static type checking which is derived from the status codes specified for a route. Users must call `status(...)` prior to calling `send(...)` where the specified status code is used to select the appropriate response schema.
 
 ```typescript
 fastify.get('/action', {
@@ -123,7 +123,7 @@ fastify.get('/action', {
 
 ## Plugins
 
-Fastify TypeBox includes mappings for Fastify plugins. You will need to specify `FastifyTypeBoxInstance` instead of `FastifyInstance` for the instance parameter. This permits to plugin to be registered on the Fastify TypeBox instance.
+Fastify TypeBox provides mappings for Fastify plugins. However you will need to specify `FastifyTypeBoxInstance` instead of `FastifyInstance` for the instance parameter. This permits to plugin to be registered on Fastify TypeBox instances.
 
 ```typescript
 import { FastifyTypeBoxInstance } from 'fastify-typebox'
