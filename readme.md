@@ -35,9 +35,9 @@ License MIT
 The following demonstrates general usage. You can test out automatic type inference [here](https://www.typescriptlang.org/play?#code/JYWwDg9gTgLgBAbzgFQJ5gKYBoXowIQgA8BRAOwEMAjAGwwBM4BfOAMyghDgHJWKBnGMFaoAtDDxVi3ALAAoUJFhwAYgKEi4W7Tt3b2nHn0HDUsufIDGEMoLbrTcALyqHIgBQBKOANyZCpJS0DDoA9KFw5NR0cBhkABYUZJYhaP7EcPwArmBKMPLyxhqoAHSQgu7coRT09Nw4SPI6-JbxGCAUAFyITXpwUvSo3WkYJQDyVABWGJYw7gi9fdpEw3glAHJZIFQYUF5Yi0twQ36jm9u7Xoc6TJ4HcktQGPyQthjdCw9HWgBMAAx-VaYcZTGZzT7fPRPbI0GBAs5bHZ7TzXPq3VFaJiHLFyJg4dxPACOOCeYBoqG8TgAfD0LF8tNZbPAkEQcKhmM44ESSgN2ZC9OE4BJMHBCINORD+VLpX1BVoVnAyIjdhiZWqjnLjt0lRcoKr1QawhEcYdSeSSoIKDAsvx3P8-p4LXF6PMuc8srDukQ4ABqY6Y7yC4UYOAAZWdnPc+sNhs1bpeNn470Q8Y9cMVyqgzGjMfVgspNIAbhBgPR5LcgA).
 
 ```typescript
-import FastifyTypeBox, { Type } from 'fastify-typebox'
+import Fastify, { FastifyTypeBoxInstance, Type } from 'fastify-typebox'
 
-const fastify = FastifyTypeBox()
+const fastify = Fastify() as FastifyTypeBoxInstance
 
 fastify.post('/add', { 
     schema: {
@@ -63,12 +63,12 @@ fastify.post('/add', {
                                                // ) => void
 })
 ```
-Alternatively, you can reinterpret an existing Fastify instance with the following type assertion.
+Alternatively, you can use the FastifyTypeBox function to return a FastifyTypeBoxInstance without a type assertion.
 
 ```typescript
-import { FastifyTypeBoxInstance, Type } from 'fastify-typebox'
+import FastifyTypeBox, { Type } from 'fastify-typebox'
 
-const fastify = Fastify() as FastifyTypeBoxInstance
+const fastify = FastifyTypeBox()
 ```
 
 ## Request
