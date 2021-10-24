@@ -191,3 +191,14 @@ export type FastifyTypeBox = Omit<FastifyInstance, 'route' | 'all' | 'delete' | 
         handler: FastifyTypeBoxHandlerMethod<RawServerBase, Schema, Url>
     ): FastifyTypeBox
 }
+
+/** 
+ * Fastify Type Assertion to Enable enhanced TypeBox Support
+ * 
+ * @example 
+ * 
+ * ```typescript
+ * const fastify = Fastify() as TypeBoxEnabled
+ * ```
+ */
+export type TypeBoxEnabled = FastifyTypeBox

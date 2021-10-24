@@ -16,7 +16,7 @@ $ npm install fastify-typebox --save
 
 ## Overview
 
-FastifyTypeBox provides enhanced TypeBox support for Fastify users. It enables automatic static type inference for Fastify routes with no additional type hinting required. FastifyTypeBox emits no additional code and is implemented entirely through the TypeScript type system.
+Fastify TypeBox offers enhanced TypeBox support for Fastify. It enables automatic type inference for Fastify requests with no additional type hinting required. Fastify TypeBox is implemented entirely through the TypeScript type system.
 
 Requires TypeScript 4.3.5 and above.
 
@@ -26,34 +26,26 @@ License MIT
 
 - [Overview](#Overview)
 - [Usage](#Usage)
-- [Setup](#Setup)
-- [Requests](#Requests)
+- [Enable](#Enable)
+- [Request](#Request)
 - [Params](#Params)
-- [Replies](#Replies)
+- [Reply](#Reply)
 
 ## Usage
 
 The following example demonstrates general usage. You can also test it out [here](https://www.typescriptlang.org/play?#code/JYWwDg9gTgLgBAMQIYGcbAGYE867-gvDKCEOAcg1XW3IFgAoUSWOAb0WsywBUswApgCEIADwA0cPoLgBfOMVIUqabgFoY-AQCMx9BowD0huGrPmLlq9Zu279s0ZMBBMIIB2AE06rscAO7AMAAWPjS8WiKicJoyqCgCsMAQ7k6mDhmZWRmMjADGKWgKXH4AvGHcABQAlHCoFdjSwmK5DMbp2Z1dWWkAIgIYwO4CcCQArjAj9YJQcGMoY0gANgB0cACKY4k4SF5wAEoCKJDuCTFaKHUTEHBDGIlQAp4rad1v7zatKuErAOYCMEq5EMSE8nnIkg4jHwKDywQEICQAC52NDCHAAI5bKBYNBQIa-FFNFYAeW0ACsBHlAWw0ei8MipFoVgA5MYgbSJGriOn0uDaInMtkcrnVXn4WTVHkMemPY6FAQo2kyvm4ABMAAYNYLBKSKVSaeLVaMjmMljAdQJWezOVAakbCJKHXJebJGLJJJVHhjJI8wEssLVSgA+E3+rArNBIGDzSqajXVSMCLyVZX4OVmi0mjErLHbFZIOAAamzuexEe07uq1SAA).
 
 ```typescript
+import { Type, TypeBoxEnabled } from 'fastify-typebox'
 import Fastify                  from 'fastify'
-import { FastifyTypeBox, Type } from 'fastify-typebox'
 
-// --------------------------------------------------------------------
-// Append Fastify with FastifyTypeBox type assertion
-// --------------------------------------------------------------------
+const fastify = Fastify() as TypeBoxEnabled
 
-const fastify = Fastify() as FastifyTypeBox
-
-// --------------------------------------------------------------------
-// Define route as per usual. Query and Response types auto inferred.
-// --------------------------------------------------------------------
-
-fastify.get('/add', { 
+fastify.post('/add', { 
     schema: {
-        querystring: Type.Object({
-            a: Type.Number(),
-            b: Type.Number()
+        body: Type.Object({
+            x: Type.Number(),
+            y: Type.Number()
         }),
         response: {
             200: Type.Object({
@@ -61,58 +53,67 @@ fastify.get('/add', {
             })
         }
     }
-}, (req, reply) => reply.status(200).send({
-    result: req.query.a + req.query.b
-}))
+}, (req, reply) => {
+
+    const { x, y } = req.body                  // type Body = {
+                                               //   x: number
+                                               //   y: number
+                                               // }
+
+    reply.status(200).send({ result: x + y  }) // type Send = (
+                                               //    response: { result: number }
+                                               // ) => void
+})
 ```
 
-## Setup
+## Enable
 
-FastifyTypeBox works by remapping Fastify's routing interface, making each http handler function TypeBox aware. This remapping is handled entirely through the TypeScript type system. To enable, append Fastify with a FastifyTypeBox type assertion.
+Fastify TypeBox works by remapping Fastify's routing interface to make each http function TypeBox aware. To enable enhanced TypeBox support, append a Fastify instance with the TypeBoxEnabled type assertion.
 
 ```typescript
-import { FastifyTypeBox, Type } from 'fastify-typebox'
-
 import Fastify from 'fastify'
 
-const fastify = Fastify() as FastifyTypeBox // enable TypeBox auto inference
+import { TypeBoxEnabled, Type } from 'fastify-typebox'
+
+const fastify = Fastify() as TypeBoxEnabled // Enables enhanced TypeBox support
 ```
 
-## Requests
+Or enable for a single route.
 
-FastifyTypeBox operates on TypeScript type system only, so users can expect the exact same request handling behaviour as Fastify. However by asserting Fastify with FastifyTypeBox, Fastify now requires all schemas to be passed as TypeBox types. FastifyTypeBox will take care of automatically inferring the correct types in the Fastify route handler.
+```typescript
+(fastify as TypeBoxEnabled).get('/', { ... }, (request, reply) => { ... })
+```
+
+## Request
+
+Fastify request handling works exactly the same with TypeBox enabled. However when TypeBox is enabled, you must specify schemas as TypeBox types. Fastify TypeBox will then automatically infer the correct types in the Fastify route handlers.
 
 ```typescript
 fastify.get('/records', {
     schema: {
-        querystring: {
-            offset: Type.Integer(),
-            limit:  Type.Integer({ maximum: 64 }),
-        },
+        querystring: Type.Object({
+            offset: Type.Integer({ minimum: 0 }),
+            limit: Type.Integer({ maximum: 64 }),
+        }),
         response: {
             200: Type.Array(
                 Type.Object({
-                    id:    Type.String({format: 'uuid' })
-                    name:  Type.String(),
+                    id: Type.String({format: 'uuid' }),
                     email: Type.String({format: 'email' })
                 })
             )
         }
     }
 }, async (request, reply) => {
-
-    const records = await get(
-        request.query.offset, 
-        request.query.limit
-    )
-
+    const { offset, limit } = request.query
+    const records = await get(offset, limit)
     reply.status(200).send(records)
 })
 ```
 
 ## Params
 
-In addition to TypeBox schemas, FastifyTypeBox will also automatically infer fastify params properties derived from urls. Param properties will always be of type `string`.
+Fastify TypeBox supports automatically inferring param objects from urls. Param properties are always inferred as type `string`.
 
 ```typescript
 fastify.get('/users/:userId', (request, reply) => {
@@ -120,9 +121,9 @@ fastify.get('/users/:userId', (request, reply) => {
 })
 ```
 
-## Replies
+## Reply
 
-FastifyTypeBox provides static type checking of Fastify response types. FastifyTypeBox does mandate that users call `status(...)` prior to calling `send(...)`. FastifyTypeBox requires this to narrow the appropriate response type based on the status code.
+Fastify TypeBox provides static type checking of Fastify response types. Users must call `status(...)` prior to calling `send(...)`. The specified status code is used to select the appropriate response schema.
 
 ```typescript
 fastify.get('/action', {
@@ -134,11 +135,8 @@ fastify.get('/action', {
         }
     }
 }, (request, reply) => {
-
     reply.status(200).send('ok')  // must be string
-
     reply.status(401).send(false) // must be boolean
-    
     reply.status(500).send(42)    // must be number
 })
 ```
