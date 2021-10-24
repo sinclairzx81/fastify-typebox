@@ -16,7 +16,7 @@ $ npm install fastify-typebox --save
 
 ## Overview
 
-Fastify TypeBox offers enhanced TypeBox support for Fastify. It enables automatic type inference for requests with no additional type hinting required. Fastify TypeBox is implemented entirely through the TypeScript type system.
+This library provides enhanced TypeBox support for Fastify. It enables automatic type inference for Fastify requests with no additional type hinting required. This library works by remapping the Fastify TypeScript interface to be fully TypeBox aware, and achieves this through the TypeScript type system.
 
 Requires TypeScript 4.3.5 and above.
 
@@ -32,7 +32,7 @@ License MIT
 
 ## Usage
 
-The following example demonstrates general usage. You can also test it out [here](https://www.typescriptlang.org/play?#code/JYWwDg9gTgLgBAbzgFQJ5gKYBoXowIQgA8BRAOwEMAjAGwwBM4BfOAMyghDgHJWKBnGMFaoAtDDxVi3ALAAoUJFhwAYgKEi4W7Tt3b2nHn0HDUsufIDGEMoLbrTcALyqHIgBQBKOANyZCpJS0DDoA9KFw5NR0cBhkABYUZJYhaP7EcPwArmBKMPLyxhqoAHSQgu7coRT09Nw4SPI6-JbxGCAUAFyITXpwUvSo3WkYJQDyVABWGJYw7gi9fdpEw3glAHJZIFQYUF5Yi0twQ36jm9u7Xoc6TJ4HcktQGPyQthjdCw9HWgBMAAx-VaYcZTGZzT7fPRPbI0GBAs5bHZ7TzXPq3VFaJiHLFyJg4dxPACOOCeYBoqG8TgAfD0LF8tNZbPAkEQcKhmM44ESSgN2ZC9OE4BJMHBCINORD+VLpX1BVoVnAyIjdhiZWqjnLjt0lRcoKr1QawhEcYdSeSSoIKDAsvx3P8-p4LXF6PMuc8srDukQ4ABqY6Y7yC4UYOAAZWdnPc+sNhs1bpeNn470Q8Y9cMVyqgzGjMfVgspNIAbhBgPR5LcgA).
+The following demonstrates general usage. You can test out automatic type inference [here](https://www.typescriptlang.org/play?#code/JYWwDg9gTgLgBAbzgFQJ5gKYBoXowIQgA8BRAOwEMAjAGwwBM4BfOAMyghDgHJWKBnGMFaoAtDDxVi3ALAAoUJFhwAYgKEi4W7Tt3b2nHn0HDUsufIDGEMoLbrTcALyqHIgBQBKOANyZCpJS0DDoA9KFw5NR0cBhkABYUZJYhaP7EcPwArmBKMPLyxhqoAHSQgu7coRT09Nw4SPI6-JbxGCAUAFyITXpwUvSo3WkYJQDyVABWGJYw7gi9fdpEw3glAHJZIFQYUF5Yi0twQ36jm9u7Xoc6TJ4HcktQGPyQthjdCw9HWgBMAAx-VaYcZTGZzT7fPRPbI0GBAs5bHZ7TzXPq3VFaJiHLFyJg4dxPACOOCeYBoqG8TgAfD0LF8tNZbPAkEQcKhmM44ESSgN2ZC9OE4BJMHBCINORD+VLpX1BVoVnAyIjdhiZWqjnLjt0lRcoKr1QawhEcYdSeSSoIKDAsvx3P8-p4LXF6PMuc8srDukQ4ABqY6Y7yC4UYOAAZWdnPc+sNhs1bpeNn470Q8Y9cMVyqgzGjMfVgspNIAbhBgPR5LcgA).
 
 ```typescript
 import FastifyTypeBox, { Type } from 'fastify-typebox'
@@ -62,6 +62,13 @@ fastify.post('/add', {
                                                //    response: { result: number }
                                                // ) => void
 })
+```
+Alternatively, you can reinterpret an existing Fastify instance with the following type assertion.
+
+```typescript
+import { FastifyTypeBoxInstance, Type } from 'fastify-typebox'
+
+const fastify = Fastify() as FastifyTypeBoxInstance
 ```
 
 ## Request
