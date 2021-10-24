@@ -16,7 +16,11 @@ $ npm install fastify-typebox --save
 
 ## Overview
 
+<<<<<<< HEAD
 Fastify TypeBox offers enhanced TypeBox support for Fastify. It enables automatic type inference for Fastify requests with no additional type hinting required. Fastify TypeBox is implemented entirely through the TypeScript type system.
+=======
+Fastify TypeBox is a library that provides enhanced TypeBox support for Fastify users. It enables automatic static type inference for Fastify routes with no additional type hinting required. Fastify TypeBox emits no additional code and is implemented entirely through the TypeScript type system.
+>>>>>>> 2f5431840a6f5ce0d6a186b2feba8860ba024a14
 
 Requires TypeScript 4.3.5 and above.
 
