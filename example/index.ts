@@ -1,14 +1,17 @@
-import FastifyTypeBox, { Type, FastifyTypeBoxInstance } from 'fastify-typebox'
+import FastifyTypeBox, { Type } from 'fastify-typebox'
+
+// -----------------------------------------------------------------
+// Fastify Scripting Example
+// -----------------------------------------------------------------
 
 const fastify = FastifyTypeBox()
 
-function plugin(instance: FastifyTypeBoxInstance, options: boolean, done: any) {
-
-    instance.get('/hello/:world', (req, res) => res.send(req.params.world))
-
-    done()
-}
-
-fastify.register(plugin, true)
-
-fastify.listen(5000)
+fastify.get('/hello/:world', { 
+    schema: {
+        response: {
+            200: Type.String()
+        }
+    } 
+}, (req, res) => {
+    res.status(200).send(req.params.world)
+})

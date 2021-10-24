@@ -26,7 +26,6 @@ License MIT
 
 - [Overview](#Overview)
 - [Usage](#Usage)
-- [Enable](#Enable)
 - [Request](#Request)
 - [Params](#Params)
 - [Reply](#Reply)

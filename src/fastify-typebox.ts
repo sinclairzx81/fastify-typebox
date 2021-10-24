@@ -72,11 +72,9 @@ export type FastifyTypeBoxUnresolvedReply<Schema extends { [status: string]: TSc
     status<Status extends keyof Schema>(code: Status): FastifyTypeBoxResolvedReply<Schema[Status]>    
 }
 
-export type FastifyTypeBoxResolveReply<T> = 
-    T extends { [status: number]: TSchema } ? FastifyTypeBoxUnresolvedReply<T> :
+export type FastifyTypeBoxReply<Schema extends FastifyTypeBoxSchema> =     
+    Schema['response'] extends { [status: number]: TSchema } ? FastifyTypeBoxUnresolvedReply<Schema['response']> :
     FastifyTypeBoxResolvedReply<TUnknown>
-
-export type FastifyTypeBoxReply<Response extends { [status: number]: TSchema} | unknown> = FastifyTypeBoxResolveReply<Response>
 
 export type FastifyTypeBoxRouteShorthandOptions<Server extends RawServerBase, Config> =  Omit<
     RouteShorthandOptions<
@@ -101,7 +99,7 @@ export type FastifyTypeBoxHandlerMethod<
     Url    extends string
 > = (
     request: FastifyTypeBoxRequest<Server, Schema, Url>, 
-    reply:   FastifyTypeBoxReply<Schema['response']>
+    reply:   FastifyTypeBoxReply<Schema>
 ) => Promise<unknown> | unknown
 
 export type FastifyTypeBoxRouteGenericInterface<
