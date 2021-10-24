@@ -8,6 +8,6 @@
             "fastify-typebox": ["src/fastify-typebox"]
         }
     }, "files": [
-        "src/"
+        "example/index.ts"
     ]
 }

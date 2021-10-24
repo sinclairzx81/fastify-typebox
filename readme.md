@@ -16,7 +16,7 @@ $ npm install fastify-typebox --save
 
 ## Overview
 
-Fastify TypeBox offers enhanced TypeBox support for Fastify. It enables automatic type inference for Fastify requests with no additional type hinting required. Fastify TypeBox is implemented entirely through the TypeScript type system.
+Fastify TypeBox offers enhanced TypeBox support for Fastify. It enables automatic type inference for requests with no additional type hinting required. Fastify TypeBox is implemented entirely through the TypeScript type system.
 
 Requires TypeScript 4.3.5 and above.
 
@@ -78,12 +78,6 @@ import { TypeBoxEnabled, Type } from 'fastify-typebox'
 const fastify = Fastify() as TypeBoxEnabled // Enables enhanced TypeBox support
 ```
 
-Or enable for a single route.
-
-```typescript
-(fastify as TypeBoxEnabled).get('/', { ... }, (request, reply) => { ... })
-```
-
 ## Request
 
 Fastify request handling works exactly the same with TypeBox enabled. However when TypeBox is enabled, you must specify schemas as TypeBox types. Fastify TypeBox will then automatically infer the correct types in the Fastify route handlers.
@@ -113,7 +107,7 @@ fastify.get('/records', {
 
 ## Params
 
-Fastify TypeBox supports automatically inferring param objects from urls. Param properties are always inferred as type `string`.
+Fastify TypeBox supports automatically inferring param objects from urls. Param properties are always inferred as type string.
 
 ```typescript
 fastify.get('/users/:userId', (request, reply) => {
