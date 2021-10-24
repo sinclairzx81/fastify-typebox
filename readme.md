@@ -129,11 +129,11 @@ import { FastifyTypeBoxInstance } from 'fastify-typebox'
 
 export function MyPlugin(instance: FastifyTypeBoxInstance, options: { config: any }, done: Function) {
 
-    instance.get('/foo/:id', (req, reply) => reply.send(req.params.id))
+    instance.get('/foo/:id', (request, reply) => reply.send(req.params.id))
 
-    instance.get('/bar', (req, reply) => { /* ... */ })
+    instance.get('/bar', (request, reply) => { /* ... */ })
 
-    instance.get('/baz', (req, reply) => { /* ... */ })
+    instance.get('/baz', (request, reply) => { /* ... */ })
 
     done()
 }
