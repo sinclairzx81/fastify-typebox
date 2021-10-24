@@ -16,7 +16,7 @@ $ npm install fastify-typebox --save
 
 ## Overview
 
-This library provides enhanced TypeBox support for Fastify. It enables automatic type inference for Fastify requests with no additional type hinting required. This library works by remapping the Fastify TypeScript interface to be fully TypeBox aware, and achieves this through the TypeScript type system.
+This library provides enhanced TypeBox support for Fastify. It enables automatic type inference for Fastify requests with no additional type hinting required. This library achieves this by remapping the Fastify interface using TypeScript conditional types only. It reconstructs Fastify Request and Reply types making them fully TypeBox aware.
 
 Requires TypeScript 4.3.5 and above.
 
@@ -103,7 +103,7 @@ fastify.get('/users/:userId', (request, reply) => {
 
 ## Reply
 
-Fastify TypeBox provides static type checking of Fastify response types. Users must call `status(...)` prior to calling `send(...)`. The specified status code is used to select the appropriate response schema.
+Fastify TypeBox provides static type checking based on defined HTTP status codes. Users must call `status(...)` prior to calling `send(...)` where the specified status code is used to select the appropriate response schema.
 
 ```typescript
 fastify.get('/action', {
