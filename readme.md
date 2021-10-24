@@ -1,6 +1,6 @@
 <div align='center'>
 
-<h1>Fastify-TypeBox</h1>
+<h1>Fastify TypeBox</h1>
 
 <p>Enhanced TypeBox support for Fastify</p>
 
