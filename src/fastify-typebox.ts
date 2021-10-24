@@ -186,10 +186,10 @@ export type FastifyTypeBoxInstance<Server extends RawServerBase = RawServerBase>
 
 // --------------------------------------------------------------------------
 // Experimental: We actually export multiple default functions here, one
-// for Fastify (above) and one for FastifyTypeBox. Both share functions
-// share the same signature. Users who to import `Fastify` actually 
-// import the function below, this is permitted by both the TypeScript
-// compiler and esbuild.
+// for Fastify (above) and one for FastifyTypeBox. Both functions share
+// the same signature. Users who to import `Fastify` actually import
+// the function below, this seems permissable by both the TypeScript
+// and esbuild.
 // --------------------------------------------------------------------------
 
 export default function FastifyTypeBox(options?: FastifyServerOptions) {
