@@ -32,7 +32,7 @@ License MIT
 
 ## Usage
 
-The following demonstrates general usage. You can test automatic type inference [here](https://www.typescriptlang.org/play?#code/JYWwDg9gTgLgBAMQIYGcbAGYE8A0cDecAKlmAKZwC+cGUEIcA5BqutgLQylkBGEAHowCwAKFEBjCADs0NVpixwAvInnYAFAEpRolmgUA6SGnWMA9EgAmlxnkKi4juCnEALMiCQAuAg6f++SywfEnIDAHkeACsycRh1fD9-ZLh+EO4DADkAVxAeMigtHCSUp2DiDJy8gq0S-0pNYpFSuCgyFEgZMh9E5panACYABiH0sMiYuIS6-sc2lGyAGxgxsizc-MLtPtmGmcdKEsORSjx1NoBHPDawRaxNZQA+XzEduEkZeEJ+PEVqFUuBkCilmpTMZjgXHIcAAQhAgsoXqDkSjQeCnGk4FINgV9qj8WiIY5ytjqlA8QTKSl0ccSjc7gY0EgYNkUOphkNNIyyFJLAlWu0litUnAANRwEENODoqEUADKPMsiPUFKpaulRLm7U6KG6BAFC2WPlJmyoqvVlPRDyUzwAbhBgJZRA0gA).
+The following demonstrates general usage. You can test automatic type inference [here](https://www.typescriptlang.org/play?#code/JYWwDg9gTgLgBAMQIYGcbAGYE8A0cDecAKlmAKZwC+cGUEIcA5BqutgLQylkBGEAHowCwAKFEBjCADs0NVpixwAvInnYAFAEpRolmgUA6SGnWMA9EgAmlxnkKi4juCnEALMiCQAuAg6f++SywfEnIDAHkeACsycRh1fD9-ZLh+EO4DADkAVxAeMigtHCSUp2DiDJy8gq0S-0pNYpFSuCgyFEgZMh9E5panACYABiH0sMiYuIS6-sc2lGyAGxgxsizc-MLtPtmGmcdKEsORSjx1NoBHbPaYPDawRaxNZQA+XzEduDMzOC5yOAAQhAgsoCKkfFINgU8OVIdUoFQdJ9JDJ4IR+DCqKDLtc0AZAopZo4kf5vr9uHAAErtTooCgqQjzJYrOBwzaIz4le6PAxoJAwbIodTDIaaXlkKSWBKtdrMnz8OAAajghL2J00QA).
 
 ```typescript
 import Fastify, { Type } from 'fastify-typebox'
@@ -51,16 +51,15 @@ fastify.post('/add', {
             })
         }
     }
-}, (req, reply) => {
+}, (request, reply) => {
 
-    const { x, y } = req.body                  // type Body = {
-                                               //   x: number
-                                               //   y: number
-                                               // }
+    // type Body = { x: number, y: number }
 
-    reply.status(200).send({ result: x + y  }) // type Send = (
-                                               //    response: { result: number }
-                                               // ) => void
+    const { x, y } = request.body             
+
+    // type Response = { result: number }
+
+    reply.status(200).send({ result: x + y  })
 })
 ```
 
