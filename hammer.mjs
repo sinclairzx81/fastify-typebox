@@ -11,6 +11,7 @@ export async function compile() {
 }
 
 export async function build() {
+    await folder('target/build').delete()
     await shell(`tsc src/fastify-typebox --outDir target/build --declaration`)
     await folder('target/build').add('src/package.json')
     await folder('target/build').add('license')
