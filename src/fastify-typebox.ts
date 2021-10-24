@@ -31,7 +31,8 @@ export * from 'fastify'
 
 import { Static, TSchema, TUnknown } from '@sinclair/typebox'
 
-import Fastify, { FastifyServerOptions, RawServerBase, FastifyRequest, FastifyReply, RouteShorthandOptions, FastifyInstance, RawRequestDefaultExpression, RawReplyDefaultExpression, FastifyRegisterOptions } from 'fastify'
+import { default as FastifyBase, FastifyServerOptions, RawServerBase, FastifyRequest, FastifyReply, RouteShorthandOptions, FastifyInstance, RawRequestDefaultExpression, RawReplyDefaultExpression, FastifyRegisterOptions } from 'fastify'
+
 
 // --------------------------------------------------------------------------
 // Fastify Interface Mapping
@@ -184,16 +185,8 @@ export type FastifyTypeBoxInstance<Server extends RawServerBase = RawServerBase>
     ): FastifyTypeBoxInstance
 }
 
-// --------------------------------------------------------------------------
-// Experimental: We actually export multiple default functions here, one
-// for Fastify (above) and one for FastifyTypeBox. Both functions share
-// the same signature. Users who to import `Fastify` actually import
-// the function below, this seems permissable by both the TypeScript
-// and esbuild.
-// --------------------------------------------------------------------------
-
-export default function FastifyTypeBox(options?: FastifyServerOptions) {
-    return Fastify(options) as FastifyTypeBoxInstance<RawServerBase>
+export default function Fastify(options?: FastifyServerOptions) {
+    return FastifyBase(options) as FastifyTypeBoxInstance<RawServerBase>
 }
 
 // --------------------------------------------------------------------------

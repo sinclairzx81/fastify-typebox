@@ -32,12 +32,12 @@ License MIT
 
 ## Usage
 
-The following demonstrates general usage. You can test automatic type inference [here](https://www.typescriptlang.org/play?#code/JYWwDg9gTgLgBAMQIYGcbAGYE8A0cDeiq62AKlmAKYBCEAHgJIB2aSTAxpXuVXAL5wMUCCDgByDMUxYAtDAqUARvTEBYAFAb2EFvElppcALxED2ABQBKOKlMksPGvWasOlDRv32AdJDTmxAHokABMQsTxCDTgYuBR2AAtKECQALgJo2KzlEKx0x28AeUUAK0p2GHN8TKzauDp8hW8AOQBXEEVKKCscGrrYvLgCto6uqz6svkte9X64KEoUSBZKdOrZudiAJgAGHcaqItLyyvXN-oWUVoAbGAPKFvbO7ssJ-qm3mL4+7-U+PHMCwAjngFmBrlhrEYAHwZTQbGLaXQEep4LD8YzzShA7w5dHnfqBQJweS8Wi5TFnAnUmnnImxBpwJhPLqfWnsgn0mKDZmjKBsjmCur0359MEQ7ysGCtFDmXY7SySyhMEJVLFXW7pOhwADUcHxUzg9NJlDgAGVlSFMeYBUK7UbibFLssUKsUZcbncmSyoPxbfbBfSobCAG4QYAhDRTIA).
+The following demonstrates general usage. You can test automatic type inference [here](https://www.typescriptlang.org/play?#code/JYWwDg9gTgLgBAMQIYGcbAGYE8A0cDecAKlmAKZwC+cGUEIcA5BqutgLQylkBGEAHowCwAKFEBjCADs0NVpixwAvInnYAFAEpRolmgUA6SGnWMA9EgAmlxnkKi4juCnEALMiCQAuAg6f++SywfEnIDAHkeACsycRh1fD9-ZLh+EO4DADkAVxAeMigtHCSUp2DiDJy8gq0S-0pNYpFSuCgyFEgZMh9E5panACYABiH0sMiYuIS6-sc2lGyAGxgxsizc-MLtPtmGmcdKEsORSjx1NoBHPDawRaxNZQA+XzEduEkZeEJ+PEVqFUuBkCilmpTMZjgXHIcAAQhAgsoXqDkSjQeCnGk4FINgV9qj8WiIY5ytjqlA8QTKSl0ccSjc7gY0EgYNkUOphkNNIyyFJLAlWu0litUnAANRwEENODoqEUADKPMsiPUFKpaulRLm7U6KG6BAFC2WPlJmyoqvVlPRDyUzwAbhBgJZRA0gA).
 
 ```typescript
-import Fastify, { FastifyTypeBoxInstance, Type } from 'fastify-typebox'
+import Fastify, { Type } from 'fastify-typebox'
 
-const fastify = Fastify() as FastifyTypeBoxInstance
+const fastify = Fastify()
 
 fastify.post('/add', { 
     schema: {
@@ -62,13 +62,6 @@ fastify.post('/add', {
                                                //    response: { result: number }
                                                // ) => void
 })
-```
-Alternatively, you can use the FastifyTypeBox() function to return a FastifyTypeBoxInstance without type assertion.
-
-```typescript
-import FastifyTypeBox, { Type } from 'fastify-typebox'
-
-const fastify = FastifyTypeBox()
 ```
 
 ## Request

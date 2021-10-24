@@ -1,10 +1,10 @@
-import FastifyTypeBox, { Type } from 'fastify-typebox'
+import Fastify, { Type } from 'fastify-typebox'
 
 // -----------------------------------------------------------------
 // Fastify Scripting Example
 // -----------------------------------------------------------------
 
-const fastify = FastifyTypeBox()
+const fastify = Fastify()
 
 fastify.get('/hello/:world', { 
     schema: {
