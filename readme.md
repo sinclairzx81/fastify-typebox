@@ -28,6 +28,7 @@ License MIT
 - [Request](#Request)
 - [Params](#Params)
 - [Reply](#Reply)
+- [Plugins](#Plugins)
 
 ## Usage
 
@@ -127,3 +128,25 @@ fastify.get('/action', {
 })
 ```
 
+## Plugins
+
+Fastify TypeBox includes mappings for Fastify plugins. You will need to specify `FastifyTypeBoxInstance` instead of `FastifyInstance` for the instance parameter. This permits to plugin to be registered on the Fastify TypeBox instance.
+
+```typescript
+import { FastifyTypeBoxInstance } from 'fastify-typebox'
+
+export function MyPlugin(instance: FastifyTypeBoxInstance, options: { config: any }, done: Function) {
+
+    instance.get('/foo/:id', (req, reply) => reply.send(req.params.id))
+
+    instance.get('/bar', (req, reply) => { /* ... */ })
+
+    instance.get('/baz', (req, reply) => { /* ... */ })
+
+    done()
+}
+
+...
+
+fastify.register(MyPlugin, { config: 'xyz' })
+```
