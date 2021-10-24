@@ -29,7 +29,6 @@ License MIT
 - [Params](#Params)
 - [Reply](#Reply)
 - [Plugins](#Plugins)
-- [Shared Types](#Shared-Types)
 
 ## Usage
 
@@ -150,36 +149,4 @@ export function MyPlugin(instance: FastifyTypeBoxInstance, options: { config: an
 ...
 
 fastify.register(MyPlugin, { config: 'xyz' })
-```
-
-<a name="Shared-Types" />
-
-## Shared Types
-
-Fastify TypeBox supports schema type reuse via the TypeBox `Type.Box(...)` function. The following sets up a box containing a  `Vector` schema. The box is registered with fastify via `.addSchema()` with the `Vector` type later referenced in the example route.
-
-```typescript
-const fastify = FastifyTypeBox()
-
-const Box = Type.Box({
-    Vector: Type.Object({
-        x: Type.Number(),
-        y: Type.Number()
-    })
-}, { $id: 'Box' })
-
-fastify.addSchema(Box)
-
-fastify.get('/echo/vector', { 
-    schema: {
-        querystring: Type.Ref(Box, 'Vector'),
-        response: {
-            200: Type.Ref(Box, 'Vector')
-        }
-    }
-}, (req, res) => {
-    res.status(200).send(req.query)
-})
-
-fastify.listen(5000)
 ```
