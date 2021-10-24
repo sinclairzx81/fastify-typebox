@@ -33,13 +33,13 @@ License MIT
 
 ## Usage
 
-The following example demonstrates general usage. You can also test it out [here](https://www.typescriptlang.org/play?#code/JYWwDg9gTgLgBAMQIYGcbAGYE867-gvDKCEOAcg1XW3IFgAoUSWOAb0WsywBUswApgCEIADwA0cPoLgBfOMVIUqabgFoY-AQCMx9BowD0huGrPmLlq9Zu279s0ZMBBMIIB2AE06rscAO7AMAAWPjS8WiKicJoyqCgCsMAQ7k6mDhmZWRmMjADGKWgKXH4AvGHcABQAlHCoFdjSwmK5DMbp2Z1dWWkAIgIYwO4CcCQArjAj9YJQcGMoY0gANgB0cACKY4k4SF5wAEoCKJDuCTFaKHUTEHBDGIlQAp4rad1v7zatKuErAOYCMEq5EMSE8nnIkg4jHwKDywQEICQAC52NDCHAAI5bKBYNBQIa-FFNFYAeW0ACsBHlAWw0ei8MipFoVgA5MYgbSJGriOn0uDaInMtkcrnVXn4WTVHkMemPY6FAQo2kyvm4ABMAAYNYLBKSKVSaeLVaMjmMljAdQJWezOVAakbCJKHXJebJGLJJJVHhjJI8wEssLVSgA+E3+rArNBIGDzSqajXVSMCLyVZX4OVmi0mjErLHbFZIOAAamzuexEe07uq1SAA).
+The following example demonstrates general usage. You can also test it out [here](https://www.typescriptlang.org/play?#code/JYWwDg9gTgLgBAbzgFQJ5gKYBoXowIQgA8BRAOwEMAjAGwwBM4BfOAMyghDgHJWKBnGMFaoAtDDxVi3ALAAoUJFhwAYgKEi4W7Tt3b2nHn0HDUsufIDGEMoLbrTcALyqHIgBQBKOANyZCpJS0DDoA9KFw5NR0cBhkABYUZJYhaP7EcPwArmBKMPLyxhqoAHSQgu7coRT09Nw4SPI6-JbxGCAUAFyITXpwUvSo3WkYJQDyVABWGJYw7gi9fdpEw3glAHJZIFQYUF5Yi0twQ36jm9u7Xoc6TJ4HcktQGPyQthjdCw9HWgBMAAx-VaYcZTGZzT7fPRPbI0GBAs5bHZ7TzXPq3VFaJiHLFyJg4dxPACOOCeYBoqG8TgAfD0LF8tNZbPAkEQcKhmM44ESSgN2ZC9OE4BJMHBCINORD+VLpX1BVoVnAyIjdhiZWqjnLjt0lRcoKr1QawhEcYdSeSSoIKDAsvx3P8-p4LXF6PMuc8srDukQ4ABqY6Y7yC4UYOAAZWdnPc+sNhs1bpeNn470Q8Y9cMVyqgzGjMfVgspNIAbhBgPR5LcgA).
 
 ```typescript
 import { Type, TypeBoxEnabled } from 'fastify-typebox'
 import Fastify                  from 'fastify'
 
-const fastify = Fastify() as TypeBoxEnabled  // Enable enhanced TypeBox support
+const fastify = Fastify() as TypeBoxEnabled    // Enable enhanced TypeBox support
 
 fastify.post('/add', { 
     schema: {
