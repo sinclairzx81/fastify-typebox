@@ -24,7 +24,6 @@ License MIT
 
 ## Contents
 
-- [Overview](#Overview)
 - [Usage](#Usage)
 - [Request](#Request)
 - [Params](#Params)
