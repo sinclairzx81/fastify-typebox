@@ -1,7 +1,7 @@
 import Fastify from 'fastify'
 import { Type, TypeBoxEnabled } from 'fastify-typebox'
 
-const fastify = Fastify() as TypeBoxEnabled
+const fastify = Fastify()
 
 fastify.get('/users/:name/age/:id', { 
     schema: {
@@ -16,10 +16,9 @@ fastify.get('/users/:name/age/:id', {
     res.status(200).send('1')
 })
 
-fastify.listen(5000)
+fastify.listen(5000);
 
-
-fastify.get('/add', { 
+(fastify as TypeBoxEnabled).get('/add', { 
     schema: {
         querystring: Type.Object({
             a: Type.Number(),

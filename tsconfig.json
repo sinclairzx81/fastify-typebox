@@ -7,5 +7,7 @@
         "paths": {
             "fastify-typebox": ["src/fastify-typebox"]
         }
-    }
+    }, "files": [
+        "src/"
+    ]
 }
