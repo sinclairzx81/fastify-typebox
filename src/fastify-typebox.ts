@@ -27,10 +27,11 @@ THE SOFTWARE.
 ---------------------------------------------------------------------------*/
 
 export * from '@sinclair/typebox'
+export * from 'fastify'
 
 import { Static, TSchema, TUnknown } from '@sinclair/typebox'
 
-import { RawServerBase, FastifyRequest, FastifyReply, RouteShorthandOptions, FastifyInstance, RawRequestDefaultExpression, RawReplyDefaultExpression, FastifyRegisterOptions } from 'fastify'
+import Fastify, { FastifyServerOptions, RawServerBase, FastifyRequest, FastifyReply, RouteShorthandOptions, FastifyInstance, RawRequestDefaultExpression, RawReplyDefaultExpression, FastifyRegisterOptions } from 'fastify'
 
 // --------------------------------------------------------------------------
 // Fastify Interface Mapping
@@ -117,72 +118,80 @@ export type FastifyTypeBoxPluginCallback<
     Server extends RawServerBase,
     Options extends Record<never, never>
 > = (
-    instance: FastifyTypeBox<Server>,
+    instance: FastifyTypeBoxInstance<Server>,
     opts:    Options,
     done: (err?: Error) => void
 ) => void
 
-export type FastifyTypeBox<Server extends RawServerBase = RawServerBase> = Omit<FastifyInstance, 'register' | 'route' | 'all' | 'delete' | 'get' | 'head' | 'options' | 'patch' | 'post' | 'put'> & {
+export type FastifyTypeBoxInstance<Server extends RawServerBase = RawServerBase> = Omit<FastifyInstance, 'register' | 'route' | 'all' | 'delete' | 'get' | 'head' | 'options' | 'patch' | 'post' | 'put'> & {
     
-    register<Options>(plugin: FastifyTypeBoxPluginCallback<Server, Options>, opts?: FastifyRegisterOptions<Options> | undefined): FastifyTypeBox
+    register<Options>(plugin: FastifyTypeBoxPluginCallback<Server, Options>, opts?: FastifyRegisterOptions<Options> | undefined): FastifyTypeBoxInstance
     
-    route<Url extends string, Schema extends FastifyTypeBoxSchema>(options: FastifyTypeBoxRouteGenericInterface<Server, Schema, Url>): FastifyTypeBox
+    route<Url extends string, Schema extends FastifyTypeBoxSchema>(options: FastifyTypeBoxRouteGenericInterface<Server, Schema, Url>): FastifyTypeBoxInstance
     
-    all<Url extends string>(url: Url, handler: FastifyTypeBoxHandlerMethod<Server, {}, Url>): FastifyTypeBox
+    all<Url extends string>(url: Url, handler: FastifyTypeBoxHandlerMethod<Server, {}, Url>): FastifyTypeBoxInstance
     all<Url extends string, Schema extends FastifyTypeBoxSchema>(
         url:     Url, 
         options: FastifyTypeBoxRouteOptions<Server, Schema, any>, 
         handler: FastifyTypeBoxHandlerMethod<Server, Schema, Url>
-    ): FastifyTypeBox
+    ): FastifyTypeBoxInstance
     
-    delete<Url extends string>(url: Url, handler: FastifyTypeBoxHandlerMethod<Server, {}, Url>): FastifyTypeBox
+    delete<Url extends string>(url: Url, handler: FastifyTypeBoxHandlerMethod<Server, {}, Url>): FastifyTypeBoxInstance
     delete<Url extends string, Schema extends FastifyTypeBoxSchema>(
         url:     Url, 
         options: FastifyTypeBoxRouteOptions<Server, Schema, any>, 
         handler: FastifyTypeBoxHandlerMethod<Server, Schema, Url>
-    ): FastifyTypeBox
+    ): FastifyTypeBoxInstance
     
-    get<Url extends string>(url: Url, handler: FastifyTypeBoxHandlerMethod<Server, {}, Url>): FastifyTypeBox
+    get<Url extends string>(url: Url, handler: FastifyTypeBoxHandlerMethod<Server, {}, Url>): FastifyTypeBoxInstance
     get<Url extends string, Schema extends FastifyTypeBoxSchema>(
         url:     Url,
         options: FastifyTypeBoxRouteOptions<Server, Schema, any>, 
         handler: FastifyTypeBoxHandlerMethod<Server, Schema, Url>
-    ): FastifyTypeBox
+    ): FastifyTypeBoxInstance
     
-    head<Url extends string>(url: Url, handler: FastifyTypeBoxHandlerMethod<Server, {}, Url>): FastifyTypeBox
+    head<Url extends string>(url: Url, handler: FastifyTypeBoxHandlerMethod<Server, {}, Url>): FastifyTypeBoxInstance
     head<Url extends string, Schema extends FastifyTypeBoxSchema>(
         url:     Url, 
         options: FastifyTypeBoxRouteOptions<Server, Schema, any>, 
         handler: FastifyTypeBoxHandlerMethod<Server, Schema, Url>
-    ): FastifyTypeBox
+    ): FastifyTypeBoxInstance
     
-    options<Url extends string>(url: Url, handler: FastifyTypeBoxHandlerMethod<Server, {}, Url>): FastifyTypeBox
+    options<Url extends string>(url: Url, handler: FastifyTypeBoxHandlerMethod<Server, {}, Url>): FastifyTypeBoxInstance
     options<Url extends string, Schema extends FastifyTypeBoxSchema>(
         url:     Url, 
         options: FastifyTypeBoxRouteOptions<Server, Schema, any>, 
         handler: FastifyTypeBoxHandlerMethod<Server, Schema, Url>
-    ): FastifyTypeBox
+    ): FastifyTypeBoxInstance
     
-    patch<Url extends string>(url: Url, handler: FastifyTypeBoxHandlerMethod<Server, {}, Url>): FastifyTypeBox
+    patch<Url extends string>(url: Url, handler: FastifyTypeBoxHandlerMethod<Server, {}, Url>): FastifyTypeBoxInstance
     patch<Url extends string, Schema extends FastifyTypeBoxSchema>(
         url:     Url, 
         options: FastifyTypeBoxRouteOptions<Server, Schema, any>, 
         handler: FastifyTypeBoxHandlerMethod<Server, Schema, Url>
-    ): FastifyTypeBox
+    ): FastifyTypeBoxInstance
     
-    post<Url extends string>(url: Url, handler: FastifyTypeBoxHandlerMethod<Server, {}, Url>): FastifyTypeBox
+    post<Url extends string>(url: Url, handler: FastifyTypeBoxHandlerMethod<Server, {}, Url>): FastifyTypeBoxInstance
     post<Url extends string, Schema extends FastifyTypeBoxSchema>(
         url:     Url, 
         options: FastifyTypeBoxRouteOptions<Server, Schema, any>, 
         handler: FastifyTypeBoxHandlerMethod<Server, Schema, Url>
-    ): FastifyTypeBox
+    ): FastifyTypeBoxInstance
     
-    put<Url extends string>(url: Url, handler: FastifyTypeBoxHandlerMethod<Server, {}, Url>): FastifyTypeBox
+    put<Url extends string>(url: Url, handler: FastifyTypeBoxHandlerMethod<Server, {}, Url>): FastifyTypeBoxInstance
     put<Url extends string, Schema extends FastifyTypeBoxSchema>(
         url:     Url, 
         options: FastifyTypeBoxRouteOptions<Server, Schema, any>, 
         handler: FastifyTypeBoxHandlerMethod<Server, Schema, Url>
-    ): FastifyTypeBox
+    ): FastifyTypeBoxInstance
+}
+
+// --------------------------------------------------------------------------
+// Interface
+// --------------------------------------------------------------------------
+
+export default function FastifyTypeBox(options?: FastifyServerOptions) {
+    return Fastify(options) as FastifyTypeBoxInstance<RawServerBase>
 }
 
 // --------------------------------------------------------------------------
@@ -204,13 +213,8 @@ export type FastifyTypeBoxParseParams<S extends string> =  FastifyTypeBoxIntoPar
     FastifyTypeBoxUnionParameters<FastifyTypeBoxExtractParams<S, []>>
 >
 
-/** 
- * Fastify Type Assertion to Enable enhanced TypeBox Support
- * 
- * @example 
- * 
- * ```typescript
- * const fastify = Fastify() as TypeBoxEnabled
- * ```
- */
-export type TypeBoxEnabled = FastifyTypeBox
+
+
+
+
+

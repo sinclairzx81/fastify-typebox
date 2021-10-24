@@ -36,10 +36,9 @@ License MIT
 The following example demonstrates general usage. You can also test it out [here](https://www.typescriptlang.org/play?#code/JYWwDg9gTgLgBAbzgFQJ5gKYBoXowIQgA8BRAOwEMAjAGwwBM4BfOAMyghDgHJWKBnGMFaoAtDDxVi3ALAAoUJFhwAYgKEi4W7Tt3b2nHn0HDUsufIDGEMoLbrTcALyqHIgBQBKOANyZCpJS0DDoA9KFw5NR0cBhkABYUZJYhaP7EcPwArmBKMPLyxhqoAHSQgu7coRT09Nw4SPI6-JbxGCAUAFyITXpwUvSo3WkYJQDyVABWGJYw7gi9fdpEw3glAHJZIFQYUF5Yi0twQ36jm9u7Xoc6TJ4HcktQGPyQthjdCw9HWgBMAAx-VaYcZTGZzT7fPRPbI0GBAs5bHZ7TzXPq3VFaJiHLFyJg4dxPACOOCeYBoqG8TgAfD0LF8tNZbPAkEQcKhmM44ESSgN2ZC9OE4BJMHBCINORD+VLpX1BVoVnAyIjdhiZWqjnLjt0lRcoKr1QawhEcYdSeSSoIKDAsvx3P8-p4LXF6PMuc8srDukQ4ABqY6Y7yC4UYOAAZWdnPc+sNhs1bpeNn470Q8Y9cMVyqgzGjMfVgspNIAbhBgPR5LcgA).
 
 ```typescript
-import { Type, TypeBoxEnabled } from 'fastify-typebox'
-import Fastify                  from 'fastify'
+import FastifyTypeBox, { Type } from 'fastify-typebox'
 
-const fastify = Fastify() as TypeBoxEnabled    // Enable enhanced TypeBox support
+const fastify = FastifyTypeBox()
 
 fastify.post('/add', { 
     schema: {
@@ -66,21 +65,9 @@ fastify.post('/add', {
 })
 ```
 
-## Enable
-
-Fastify TypeBox works by remapping Fastify's routing interface to make each http function TypeBox aware. To enable enhanced TypeBox support, append a Fastify instance with the TypeBoxEnabled type assertion.
-
-```typescript
-import Fastify from 'fastify'
-
-import { TypeBoxEnabled, Type } from 'fastify-typebox'
-
-const fastify = Fastify() as TypeBoxEnabled // Enables enhanced TypeBox support
-```
-
 ## Request
 
-Fastify request handling works exactly the same with TypeBox enabled. However when TypeBox is enabled, you must specify schemas as TypeBox types. Fastify TypeBox will then automatically infer the correct types in the Fastify route handlers.
+Fastify TypeBox request handling works exactly the same as Fastify. However you must specify schemas as TypeBox types. Fastify TypeBox will then automatically infer the correct types in the Fastify route handlers.
 
 ```typescript
 fastify.get('/records', {

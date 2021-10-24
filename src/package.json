@@ -1,6 +1,6 @@
 {
     "name": "fastify-typebox",
-    "version": "0.8.7",
+    "version": "0.8.8",
     "description": "Enhanced TypeBox support for Fastify",
     "main": "./fastify-typebox.js",
     "types": "./fastify-typebox.d.ts",
@@ -11,10 +11,8 @@
     ],
     "author": "sinclairzx81",
     "license": "MIT",
-    "peerDependencies": {
-        "fastify": "^3.22.1"
-    },
     "dependencies": {
+      "fastify": "^3.22.1",
       "@sinclair/typebox": "^0.20.5"
     }
   }
