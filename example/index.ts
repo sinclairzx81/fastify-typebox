@@ -1,10 +1,10 @@
 import Fastify from 'fastify'
-import { Type, TypeBoxEnabled } from 'fastify-typebox'
+import { FastifyTypeBox } from 'fastify-typebox'
 
-const fastify = Fastify() as TypeBoxEnabled
+const fastify = Fastify() as FastifyTypeBox
 
-function plugin(instance: TypeBoxEnabled, options: boolean, done: any) {
-    
+function plugin(instance: FastifyTypeBox, options: boolean, done: any) {
+
     instance.get('/:param', (req, res) => {
 
         console.log('param:', req.params.param)
@@ -17,4 +17,4 @@ function plugin(instance: TypeBoxEnabled, options: boolean, done: any) {
 fastify.register(plugin, true) 
 
 
-fastify.listen(5000);
+fastify.listen(5000)
