@@ -63,7 +63,7 @@ fastify.post('/add', {
                                                // ) => void
 })
 ```
-Alternatively, you can use the FastifyTypeBox function to return a FastifyTypeBoxInstance without a type assertion.
+Alternatively, you can use the FastifyTypeBox() function to return a FastifyTypeBoxInstance without type assertion.
 
 ```typescript
 import FastifyTypeBox, { Type } from 'fastify-typebox'
