@@ -39,7 +39,7 @@ The following example demonstrates general usage. You can also test it out [here
 import { Type, TypeBoxEnabled } from 'fastify-typebox'
 import Fastify                  from 'fastify'
 
-const fastify = Fastify() as TypeBoxEnabled
+const fastify = Fastify() as TypeBoxEnabled  // Enable enhanced TypeBox support
 
 fastify.post('/add', { 
     schema: {
