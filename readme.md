@@ -122,20 +122,14 @@ fastify.get('/action', {
 
 ## Plugins
 
-Fastify TypeBox provides mappings for Fastify plugins. However you will need to specify `FastifyTypeBoxInstance` instead of `FastifyInstance` for the instance parameter. This permits to plugin to be registered on Fastify TypeBox instances.
+Fastify TypeBox provides mappings for Fastify plugins. To enable type inference for the plugin, specify `FastifyTypeBoxInstance` instead of `FastifyInstance` for the instance parameter type.
 
 ```typescript
 import { FastifyTypeBoxInstance } from 'fastify-typebox'
 
-export function MyPlugin(instance: FastifyTypeBoxInstance, options: { config: any }, done: Function) {
+async function MyPlugin(instance: FastifyTypeBoxInstance, options: { config: any }) {
 
-    instance.get('/foo/:id', (request, reply) => reply.send(req.params.id))
-
-    instance.get('/bar', (request, reply) => { /* ... */ })
-
-    instance.get('/baz', (request, reply) => { /* ... */ })
-
-    done()
+    instance.get('/hello', (request, reply) => reply.send('world'))
 }
 
 ...

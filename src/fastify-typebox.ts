@@ -127,7 +127,7 @@ export type FastifyTypeBoxPluginCallback<
     instance: FastifyTypeBoxInstance<Server>,
     opts:     Options,
     done: (err?: Error) => void
-) => void | Promise<void>
+) => unknown | Promise<unknown>
 
 export type FastifyTypeBoxPluginCallbackVariant<
     Options extends FastifyServerOptions, 
@@ -219,7 +219,7 @@ export default function Fastify<
     Server  extends RawServerBase = InferServerFromOptions<Options>
 >(options?: Options) {
     return FastifyBase(options) as any as FastifyTypeBoxInstance<Server>
-                                  // ^ server selection makes types incompatible
+                                  // ^ server selection makes types incompatible.
                                   //   this needs review.
 }
 
