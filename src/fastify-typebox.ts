@@ -31,10 +31,10 @@ export * from 'fastify'
 
 import { Static, TSchema, TUnknown } from '@sinclair/typebox'
 
-import { default as FastifyBase, FastifyServerOptions, FastifyPluginOptions, FastifyPluginCallback, RawServerBase, FastifyRequest, FastifyReply, RouteShorthandOptions, FastifyInstance, RawRequestDefaultExpression, RawReplyDefaultExpression, FastifyRegisterOptions } from 'fastify'
+import { default as FastifyBase, FastifyServerFactory, FastifyServerOptions, RawServerDefault, FastifyPluginOptions, FastifyPluginCallback, RawServerBase, FastifyRequest, FastifyReply, RouteShorthandOptions, FastifyInstance, RawRequestDefaultExpression, RawReplyDefaultExpression, FastifyRegisterOptions } from 'fastify'
 
 // --------------------------------------------------------------------------
-// Fastify Interface Mapping
+// TypeBox Inference
 // --------------------------------------------------------------------------
 
 export type FastifyTypeBoxSchema = {
@@ -50,6 +50,10 @@ export type IntoFastifySchema<Url extends string, T extends FastifyTypeBoxSchema
     Querystring: T['querystring'] extends TSchema ? Static<T['querystring']> : unknown,
     Params:      FastifyTypeBoxParseParams<Url>
 }
+
+// --------------------------------------------------------------------------
+// Fastify TypeBox Request Reply
+// --------------------------------------------------------------------------
 
 export type FastifyTypeBoxRequest<
     Server extends RawServerBase,  
@@ -112,18 +116,32 @@ export type FastifyTypeBoxRouteGenericInterface<
     handler: FastifyTypeBoxHandlerMethod<Server, Schema, Url>
 }
 
+// --------------------------------------------------------------------------
+// Fastify TypeBox Plugin
+// --------------------------------------------------------------------------
+
 export type FastifyTypeBoxPluginCallback<
-    Server extends RawServerBase,
-    Options extends Record<never, never>
+    Options extends Record<never, never>,
+    Server extends RawServerBase
 > = (
     instance: FastifyTypeBoxInstance<Server>,
-    opts:    Options,
+    opts:     Options,
     done: (err?: Error) => void
-) => void
+) => void | Promise<void>
 
-export type FastifyTypeBoxInstance<Server extends RawServerBase = RawServerBase> = Omit<FastifyInstance, 'register' | 'route' | 'all' | 'delete' | 'get' | 'head' | 'options' | 'patch' | 'post' | 'put'> & {
-    register<Options extends FastifyPluginOptions>(plugin: FastifyPluginCallback<Options>, opts?: FastifyRegisterOptions<Options> | undefined): FastifyTypeBoxInstance
-    register<Options extends FastifyPluginOptions>(plugin: FastifyTypeBoxPluginCallback<Server, Options>, opts?: FastifyRegisterOptions<Options> | undefined): FastifyTypeBoxInstance
+export type FastifyTypeBoxPluginCallbackVariant<
+    Options extends FastifyServerOptions, 
+    Server extends RawServerBase
+> = 
+    FastifyTypeBoxPluginCallback<Options, Server> | 
+    FastifyPluginCallback<Options, Server>
+
+// --------------------------------------------------------------------------
+// Fastify TypeBox Instance
+// --------------------------------------------------------------------------
+
+export type FastifyTypeBoxInstance<Server extends RawServerBase = RawServerDefault> = Omit<FastifyInstance, 'register' | 'route' | 'all' | 'delete' | 'get' | 'head' | 'options' | 'patch' | 'post' | 'put'> & {
+    register<Options extends FastifyPluginOptions>(plugin: FastifyTypeBoxPluginCallbackVariant<Options, Server>, opts?: FastifyRegisterOptions<Options> | undefined): FastifyTypeBoxInstance
     
     route<Url extends string, Schema extends FastifyTypeBoxSchema>(options: FastifyTypeBoxRouteGenericInterface<Server, Schema, Url>): FastifyTypeBoxInstance
     
@@ -184,8 +202,25 @@ export type FastifyTypeBoxInstance<Server extends RawServerBase = RawServerBase>
     ): FastifyTypeBoxInstance
 }
 
-export default function Fastify(options?: FastifyServerOptions) {
-    return FastifyBase(options) as FastifyTypeBoxInstance<RawServerBase>
+// --------------------------------------------------------------------------
+// Fastify Server Inference
+// --------------------------------------------------------------------------
+
+export type InferServerFromFactory<T> = T extends FastifyServerFactory<infer Server> ? Server : RawServerDefault
+
+export type InferServerFromOptions<T> = T extends FastifyServerOptions ? InferServerFromFactory<T['serverFactory']> : RawServerDefault
+
+// --------------------------------------------------------------------------
+// Fastify
+// --------------------------------------------------------------------------
+
+export default function Fastify<
+    Options extends FastifyServerOptions,
+    Server  extends RawServerBase = InferServerFromOptions<Options>
+>(options?: Options) {
+    return FastifyBase(options) as any as FastifyTypeBoxInstance<Server>
+                                  // ^ server selection makes types incompatible
+                                  //   this needs review.
 }
 
 // --------------------------------------------------------------------------
