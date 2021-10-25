@@ -31,8 +31,7 @@ export * from 'fastify'
 
 import { Static, TSchema, TUnknown } from '@sinclair/typebox'
 
-import { default as FastifyBase, FastifyServerOptions, RawServerBase, FastifyRequest, FastifyReply, RouteShorthandOptions, FastifyInstance, RawRequestDefaultExpression, RawReplyDefaultExpression, FastifyRegisterOptions } from 'fastify'
-
+import { default as FastifyBase, FastifyServerOptions, FastifyPluginOptions, FastifyPluginCallback, RawServerBase, FastifyRequest, FastifyReply, RouteShorthandOptions, FastifyInstance, RawRequestDefaultExpression, RawReplyDefaultExpression, FastifyRegisterOptions } from 'fastify'
 
 // --------------------------------------------------------------------------
 // Fastify Interface Mapping
@@ -123,8 +122,8 @@ export type FastifyTypeBoxPluginCallback<
 ) => void
 
 export type FastifyTypeBoxInstance<Server extends RawServerBase = RawServerBase> = Omit<FastifyInstance, 'register' | 'route' | 'all' | 'delete' | 'get' | 'head' | 'options' | 'patch' | 'post' | 'put'> & {
-    
-    register<Options>(plugin: FastifyTypeBoxPluginCallback<Server, Options>, opts?: FastifyRegisterOptions<Options> | undefined): FastifyTypeBoxInstance
+    register<Options extends FastifyPluginOptions>(plugin: FastifyPluginCallback<Options>, opts?: FastifyRegisterOptions<Options> | undefined): FastifyTypeBoxInstance
+    register<Options extends FastifyPluginOptions>(plugin: FastifyTypeBoxPluginCallback<Server, Options>, opts?: FastifyRegisterOptions<Options> | undefined): FastifyTypeBoxInstance
     
     route<Url extends string, Schema extends FastifyTypeBoxSchema>(options: FastifyTypeBoxRouteGenericInterface<Server, Schema, Url>): FastifyTypeBoxInstance
     
