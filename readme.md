@@ -142,3 +142,4 @@ export function MyPlugin(instance: FastifyTypeBoxInstance, options: { config: an
 
 fastify.register(MyPlugin, { config: 'xyz' })
 ```
+
