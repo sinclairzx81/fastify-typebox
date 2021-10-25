@@ -5,7 +5,7 @@ import fastifySwagger from 'fastify-swagger'
 // Fastify Scripting Example
 // -----------------------------------------------------------------
 
-const fastify = Fastify({})
+const fastify = Fastify()
 
 async function ft_async(instance: FastifyTypeBoxInstance, options: { config: number }) {
     // ...   
