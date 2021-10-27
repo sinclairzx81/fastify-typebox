@@ -42,7 +42,7 @@ import Fastify, { Type } from 'fastify-typebox'
 
 const fastify = Fastify()
 
-fastify.post('/add', { 
+fastify.post('/users/:userId', { 
     schema: {
         body: Type.Object({
             x: Type.Number(),
@@ -55,6 +55,14 @@ fastify.post('/add', {
         }
     }
 }, (request, reply) => {
+    
+    // -------------------------------------
+    // Requests
+    // -------------------------------------
+
+    // type Params = { userId: string }
+
+    const { userId } = request.params
 
     // type Body = { x: number, y: number }
 
@@ -62,7 +70,17 @@ fastify.post('/add', {
 
     // type Response = { result: number }
 
-    reply.status(200).send({ result: x + y  })
+    // -------------------------------------
+    // Replies
+    // -------------------------------------
+    
+    reply.status(200).send({ result: x + y  })  // ok: !
+
+    reply.send({ result: 100 })                 // error: no status code specified
+
+    reply.status(400).send({ result: 333 })     // error: 400 status not defined
+
+    reply.status(200).send({ result: '123' })   // error: result is not number
 })
 ```
 
