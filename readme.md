@@ -68,19 +68,19 @@ fastify.post('/users/:userId', {
 
     const { x, y } = request.body             
 
-    // type Response = { result: number }
-
     // -------------------------------------
     // Replies
     // -------------------------------------
-    
+
+    // type Response = { 200: { result: number } }
+
+    reply.send({ result: 100 })                // error: no status code specified
+
+    reply.status(400).send({ result: 42 })     // error: 400 status code not defined
+
+    reply.status(200).send({ result: '42' })   // error: result type is not number
+
     reply.status(200).send({ result: x + y  })  // ok: !
-
-    reply.send({ result: 100 })                 // error: no status code specified
-
-    reply.status(400).send({ result: 333 })     // error: 400 status not defined
-
-    reply.status(200).send({ result: '123' })   // error: result is not number
 })
 ```
 
