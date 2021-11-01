@@ -21,7 +21,7 @@ $ npm install fastify-typebox --save
 
 This library provides enhanced TypeBox support for Fastify. It enables automatic type inference for Fastify requests with no additional type hinting required. This library achieves this by remapping the Fastify interface using TypeScript conditional types only. It reconstructs Fastify Request and Reply types making them fully TypeBox aware.
 
-IMPORTANT: This project is intended to serve as prototype for exploring various static type inference possibilities in Fastify. It was developed to test TypeScript inference performance and static type checking behaviours. It is not recommended to take this project as a dependency, instead consider the upcoming `Type Provider` functionality due to release in Fastify version 4.0.
+> IMPORTANT: This project is intended to serve as prototype for exploring various static type inference possibilities in Fastify. It was developed to test TypeScript inference performance and static type checking behaviours. It is not recommended to take this project as a dependency, instead consider the upcoming `Type Provider` functionality due to release in Fastify version 4.0.
 
 Requires TypeScript 4.3.5 and above.
 
