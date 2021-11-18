@@ -16,7 +16,7 @@
     "fastify": "^3.22.1"
   },
   "dependencies": {
-    "@sinclair/typebox": "^0.20.5"
+    "@sinclair/typebox": "^0.21.0"
   },
   "devDependencies": {
     "@sinclair/hammer": "^0.15.8",

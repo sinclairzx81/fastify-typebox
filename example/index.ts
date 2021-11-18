@@ -1,5 +1,4 @@
-import Fastify, { FastifyTypeBoxInstance, FastifyInstance } from 'fastify-typebox'
-import fastifySwagger from 'fastify-swagger'
+import Fastify, { Type } from 'fastify-typebox'
 
 // -----------------------------------------------------------------
 // Fastify Scripting Example
@@ -7,28 +6,43 @@ import fastifySwagger from 'fastify-swagger'
 
 const fastify = Fastify()
 
-async function ft_async(instance: FastifyTypeBoxInstance, options: { config: number }) {
-    // ...   
-}
+fastify.post('/users/:userId', { 
+    schema: {
+        body: Type.Object({
+            x: Type.Number(),
+            y: Type.Number()
+        }),
+        response: {
+            200: Type.Object({
+                result: Type.Number()
+            })
+        }
+    }
+}, (request, reply) => {
+    
+    // -------------------------------------
+    // Requests
+    // -------------------------------------
+    
+    // type Params = { userId: string }
 
-function ft_sync(instance: FastifyTypeBoxInstance, options: { config: number }, done: Function) {
-    // ...
-}
+    const { userId } = request.params
 
-async function t_async(instance: FastifyInstance, options: { config: number }, done: Function) {
-    // ...
-}
+    // type Body = { x: number, y: number }
 
+    const { x, y } = request.body             
 
-function t_sync(instance: FastifyInstance, options: { config: number }, done: Function) {
-    // ...
-}
+    // -------------------------------------
+    // Replies
+    // -------------------------------------
 
-fastify.register(ft_async, { config: 1 })
-fastify.register(ft_sync, { config: 1 })
-fastify.register(t_async, { config: 1 })
-fastify.register(t_sync, { config: 1 })
-fastify.register(fastifySwagger, {})
+    // type Response = { 200: { result: number } }
 
+    // reply.send({ result: 100 })                // error: no status code specified
 
+    // reply.status(400).send({ result: 42 })     // error: 400 status code not defined
 
+    // reply.status(200).send({ result: '42' })   // error: result type is not number
+
+    reply.status(200).send({ result: x + y  })  // ok: !
+})
